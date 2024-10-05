@@ -44,6 +44,16 @@ async function register(req, res) {
     }
 }
 
+
+async function change_role(req, res) {
+    try {
+   
+    } catch (err) {
+        console.error("Error while changing role", err);
+        res.status(500).json({ msg: "Internal Server Error" });
+    }
+}
 export default{
-    register
+    register,
+    change_role
 }

@@ -11,6 +11,6 @@ const routes = (app) => {
     app.route("/api/user_manage")
     .post(adminCheck, userController.change_role )
 }
-
+ 
     
 export {routes}
