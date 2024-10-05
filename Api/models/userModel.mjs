@@ -81,12 +81,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: [],
     }],
-    discord: {
+    discord_nickname: {
         type: String,
     },
-    server: {
+    rank: {
         type: String,
     },
+    steam_id:Number
+    
 }, { timestamps: true });
 
 // Manager Schema
