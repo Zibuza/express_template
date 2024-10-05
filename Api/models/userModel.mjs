@@ -38,7 +38,7 @@ const eventSchema = new mongoose.Schema({
     sponsor: {
         type: String,
     },
-}, { timestamps: true });
+}, { versionKey:false });
 
 // Game Schema
 const gameSchema = new mongoose.Schema({
@@ -60,7 +60,7 @@ const gameSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-}, { timestamps: true });
+}, { versionKey:false });
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -69,6 +69,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    email:{
+        type:String,
+        required: true
+    },
+    role:String,
+    password:String,
     games: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Game',
@@ -88,8 +94,8 @@ const userSchema = new mongoose.Schema({
         type: String,
     },
     steam_id:Number
-    
-}, { timestamps: true });
+
+}, { versionKey:false });
 
 // Manager Schema
 const managerSchema = new mongoose.Schema({
@@ -108,7 +114,7 @@ const managerSchema = new mongoose.Schema({
     sponsors: [{
         type: String,
     }],
-}, { timestamps: true });
+}, { versionKey:false });
 
 // Admin Schema
 const adminSchema = new mongoose.Schema({
@@ -127,7 +133,7 @@ const adminSchema = new mongoose.Schema({
     sponsors: [{
         type: String,
     }],
-}, { timestamps: true });
+}, { versionKey:false });
 
 // Teams Schema
 const teamSchema = new mongoose.Schema({
@@ -143,7 +149,7 @@ const teamSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-}, { timestamps: true });
+}, { versionKey:false });
 
 // Match Schema
 const matchSchema = new mongoose.Schema({
@@ -159,7 +165,7 @@ const matchSchema = new mongoose.Schema({
     result: {
         type: String,
     },
-}, { timestamps: true });
+}, { versionKey:false });
 
 // Exporting all schemas using mongoose.models
 

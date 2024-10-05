@@ -6,7 +6,7 @@ const User = mongoose.model("User")
 async function register(req, res) {
     try {
         // Destructure the required fields from request body
-        const { name, email, password, role, discord_nickname, steam_id } = req.body;
+        const { name, email, password, role, discord_nickname, steam_id, rank } = req.body;
 
         // Check if the required fields are provided
         if (!name || !email || !password) {
@@ -27,7 +27,7 @@ async function register(req, res) {
             name,
             email,
             password: hashedPass,
-            role,
+            role: role || null,
             steam_id,
             discord_nickname: discord_nickname || null, // Optional field
             rank: rank || null, // Optional field

@@ -6,8 +6,11 @@ import adminCheck from '../middlewares/isAdmin.mjs';
 
 const routes = (app) => {
     app.route("/api/user")
-    .post(userController.register)
+    .post(adminCheck, userController.register)
+
+    app.route("/api/user_manage")
+    .post(adminCheck, userController.change_role )
 }
 
     
-export {routes}    
+export {routes}
