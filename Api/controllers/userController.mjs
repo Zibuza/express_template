@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
 import bcrypt from "bcrypt"
 
-const User = mongoose.model("Users")
+const User = mongoose.model("User")
 
-export async function register(req,res){
+async function register(req,res){
     
 
     try{

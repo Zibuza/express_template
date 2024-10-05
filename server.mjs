@@ -10,7 +10,7 @@ import { routes } from "./Api/routes/routes.mjs";
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, {serverSelectionTimeoutMS: 3000})
 
 const app = express();
 
