@@ -3,187 +3,133 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 // Event Schema
 const eventSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    address: {
-        type: String,
-        required: true,
-    },
+    name: String,
+    desc: String,
     start_date: {
         type: Date,
-        required: true,
+     
     },
     end_date: {
         type: Date,
-        required: true,
     },
     time: {
         type: String,
         required: true,
     },
-    games: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Game',
-    }],
-    participants: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    }],
-    badge: {
-        type: String,
-    },
-    sponsor: {
-        type: String,
-    },
-}, { versionKey:false });
+    games: [
+        mongoose.Schema.Types.ObjectId,
+    ],
+    teams:[
+        mongoose.Schema.Types.ObjectId,
+    ],
+    reg_fee: Number,
+    payment_history:[
+        {
+            ID: String,
+            Noney: Number
+        } 
+    ],
+    sponsors: [
+        {
+            Name: Number,
+            Info: Object
+        }
+    ],
+    badges: [
+        {
+            Name: String,
+            Info: Object
+        }
+    ]
+    
+}, { versionKey: false });
 
 // Game Schema
 const gameSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    genre: {
-        type: String,
-        required: true,
-    },
-    category: {
-        type: String,
-        required: true,
-    },
-    id: {
-        type: Number,
-        required: true,
-        unique: true,
-    },
-}, { versionKey:false });
+    name:String,
+    category:String,
+    banner:String,
+
+
+}, { versionKey: false });
 
 // User Schema
 const userSchema = new mongoose.Schema({
-    name: {
+
+    name: String,
+    role: String,
+    password: String,
+    discord_nickname: String,
+    player_steam_id: Number,
+    rank: String,
+    money_spent: Number,
+
+    email: {
         type: String,
         required: true,
-        trim: true,
+        unique: true
     },
-    email:{
-        type:String,
-        required: true
-    },
-    role:String,
-    password:String,
-    games: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Game',
-    }],
-    events: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Event',
-    }],
-    badges: [{
-        type: String,
-        default: [],
-    }],
-    discord_nickname: {
-        type: String,
-    },
-    rank: {
-        type: String,
-    },
-    steam_id:Number
 
-}, { versionKey:false });
+    games: [
+        {
+            steam_id: Number,
+            Info: Object
+        }
+    ],
+    events: [
+        mongoose.Schema.Types.ObjectId,
+    ]
 
-// Manager Schema
-const managerSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    assigned_events: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Event',
-    }],
-    assigned_teams: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Team',
-    }],
-    sponsors: [{
-        type: String,
-    }],
-}, { versionKey:false });
 
-// Admin Schema
-const adminSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    managed_events: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Event',
-    }],
-    managed_teams: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Team',
-    }],
-    sponsors: [{
-        type: String,
-    }],
-}, { versionKey:false });
+}, { versionKey: false });
+
+
 
 // Teams Schema
 const teamSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    players: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    }],
-    player_count: {
-        type: Number,
-        required: true,
-    },
-}, { versionKey:false });
+    name: String,
+    players: [
+        mongoose.Schema.Types.ObjectId,
+    ],
+    player_count: Number,
+
+}, { versionKey: false });
 
 // Match Schema
 const matchSchema = new mongoose.Schema({
-    teams: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Team',
-    }],
+    teams: [
+        mongoose.Schema.Types.ObjectId,
+    ],
     status: {
         type: String,
         enum: ['upcoming', 'ongoing', 'finished'],
         required: true,
     },
-    result: {
-        type: String,
-    },
-}, { versionKey:false });
+    winner_players: [
+        mongoose.Schema.Types.ObjectId,,
+    ],
+    stats: [
+       { 
+        player_id: mongoose.Schema.Types.ObjectId,
+        Stats: Object
+        }
+    ]
 
-// Exporting all schemas using mongoose.models
+}, { versionKey: false });
+
 
 const Event = mongoose.models.Event || mongoose.model("Event", eventSchema);
 const Game = mongoose.models.Game || mongoose.model("Game", gameSchema);
 const User = mongoose.models.User || mongoose.model("User", userSchema);
-const Manager = mongoose.models.Manager || mongoose.model("Manager", managerSchema);
-const Admin = mongoose.models.Admin || mongoose.model("Admin", adminSchema);
+
 const Team = mongoose.models.Team || mongoose.model("Team", teamSchema);
 const Match = mongoose.models.Match || mongoose.model("Match", matchSchema);
 
 export default {
-    
+
     Event,
     Game,
     User,
-    Manager,
-    Admin,
     Team,
     Match
 };
