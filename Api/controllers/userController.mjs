@@ -1,5 +1,7 @@
 import mongoose from "mongoose"
 import bcrypt from "bcrypt"
+import axios from "axios"
+import fs from "fs"
 
 const User = mongoose.model("User")
 
@@ -114,13 +116,17 @@ async function change_role(req, res) {
         // If the new role is "manager", initialize specific fields
         if (role === "manager") {
             user.events = [];
-            user.money_spent = [];
+            user.money_spent = 0;
             user.sponsors = [];
+        }else if(role == "user"){
+            user.events = null;
+            user.money_spent = null;
+            user.sponsors = null;
         }
 
-        // Save the updated user
-        await user.save();
 
+        // Save the updated user 
+        await user.save()
         res.json({ msg: "Role updated successfully", user });
     } catch (err) {
         console.error("Error while changing role:", err);
@@ -128,8 +134,70 @@ async function change_role(req, res) {
     }
 }
 
+
+async function fetch_games(req, res) {
+  try {
+    const response = await axios.get("https://steamspy.com/api.php?request=all");
+    const games = response.data;
+
+    let gameList = Object.values(games).map(game => ({
+      appid: game.appid,
+      name: game.name
+    }));
+
+    // Check if gameList is empty
+    if (gameList.length === 0) {
+      fs.readFile("games.json", "utf-8", (err, data) => {
+        if (err) {
+          console.error("Error reading game IDs file:", err);
+          return res.status(500).json({ msg: "Error reading game IDs file" });
+        }
+        try {
+          gameList = JSON.parse(data);
+          return res.json(gameList); // Respond with loaded game list
+        } catch (parseError) {
+          console.error("Error parsing JSON:", parseError);
+          return res.status(500).json({ msg: "Error parsing JSON" });
+        }
+      });
+    } else {
+      return res.json(gameList); // Respond with fetched game list
+    }
+  } catch (err) {
+    console.error("Error while fetching games:", err);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+}
+
+
+async function fetch_game(req, res) {
+    try {
+        const {steam_id} = req.body
+        if (!steam_id){
+            res.JSON({msg: "steam_id not given"})
+        }
+        const response = await axios.get("https://store.steampowered.com/api/appdetails?appids="+steam_id)
+
+        const games = response.data
+        
+        // const gameList = Object.values(games).map(game => ({
+        //     appid: game.appid,
+        //     name: game.name
+        //   }));
+
+        res.json({ msg: "games data", games })
+
+
+    } catch (err) {
+        console.error("Error while fetching games:", err);
+        res.status(500).json({ msg: "Internal Server Error" });
+    }
+
+}
 export default{
     register,
     register_staff,
-    change_role
+    change_role,
+    fetch_games,
+    fetch_game
 }

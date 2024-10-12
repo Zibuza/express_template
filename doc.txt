@@ -1,0 +1,65 @@
+
+
+https://jamboard.google.com/d/1yXeIq7tmBlfaI3SGfKyENpDkzRw6xG6Xz0_qpVos0iw/edit?usp=sharing
+
+
+
+> role management
+
+/api/change_role
+post
+{
+    "admin":{
+        "email": "nika@renode.space",
+        "password": "nik100"
+    },
+    "email": "david@renode.space",
+    "role": "user"
+}
+> registration
+/api/user
+post
+
+{
+
+    "name": "david",
+    "email": "david@renode.space",
+    "password": "davit100",
+    "role": "admin", 
+    "discord_nickname": "",
+    "steam_id": ""
+}
+/api/staff_user
+post
+
+{
+    "admin":{
+        "email": "nika@renode.space",
+        "password": "nik100"
+    },
+    "name": "david",
+    "email": "david@renode.space",
+    "password": "davit100",
+    "role": "admin", 
+    "discord_nickname": "",
+    "steam_id": ""
+}
+-----------------------------------------------------
+> game info fetch from steam (admin, manager)
+
+? all game ids
+https://steamspy.com/api.php?request=all 
+? game info based on game id
+https://store.steampowered.com/api/appdetails?appids=730
+
+
+/api/games
+post
+
+{
+
+    "manager":{
+        "email": "123",
+        "password": "123"
+    }
+}
