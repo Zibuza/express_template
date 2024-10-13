@@ -172,28 +172,48 @@ async function fetch_games(req, res) {
 
 async function fetch_game(req, res) {
     try {
-        const {steam_id} = req.body
-        if (!steam_id){
-            res.JSON({msg: "steam_id not given"})
+        const { steam_id, steam_ids } = req.body;
+
+        // If no steam_id or steam_ids are provided, return an error message
+        if (!steam_id && !steam_ids) {
+            return res.status(400).json({ msg: "No steam_id or steam_ids provided" });
         }
-        const response = await axios.get("https://store.steampowered.com/api/appdetails?appids="+steam_id)
 
-        const games = response.data
+        // Function to extract game info from the response
+        const extractGameInfo = (game) => {
+            const data = game.data;
+            return {
+                appid: data.appid,
+                name: data.name,
+                cats: data.categories,
+                banner: data.header_image
+            };
+        };
         
-        // const gameList = Object.values(games).map(game => ({
-        //     appid: game.appid,
-        //     name: game.name
-        //   }));
+        // If steam_ids are provided, fetch data for multiple games in parallel
+        if (steam_ids.length > 0) {
+            const gamesInfo = await Promise.all(
+                steam_ids.map(async (id) => {
+                    const response = await axios.get(`https://store.steampowered.com/api/appdetails?appids=${id}`);
+                    const game = response.data[id];
+                    return extractGameInfo(game);
+                })
+            );
+            return res.json({ msg: "games data", gamesInfo });
+        }
 
-        res.json({ msg: "games data", games })
-
+        // If only a single steam_id is provided, fetch data for that game
+        const response = await axios.get(`https://store.steampowered.com/api/appdetails?appids=${steam_id}`);
+        const game = response.data[steam_id];
+        const gameInfo = extractGameInfo(game);
+        return res.json({ msg: "games data", gameInfo });
 
     } catch (err) {
         console.error("Error while fetching games:", err);
-        res.status(500).json({ msg: "Internal Server Error" });
+        return res.status(500).json({ msg: "Internal Server Error" });
     }
-
 }
+
 export default{
     register,
     register_staff,
