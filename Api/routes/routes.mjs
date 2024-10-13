@@ -1,6 +1,7 @@
 
 
 import userController from "../controllers/userController.mjs"
+import gameController from "../controllers/gameController.mjs"
 
 import adminCheck from '../middlewares/isAdmin.mjs';
 import managerCheck from '../middlewares/isManager.mjs';
@@ -16,10 +17,10 @@ const routes = (app) => {
     .post(adminCheck, userController.change_role )
 
     app.route("/api/games")
-    .get( managerCheck, userController.fetch_games)
+    .get( managerCheck, gameController.fetch_games)
 
     app.route("/api/game")
-    .get(managerCheck, userController.fetch_game)
+    .get(managerCheck, gameController.fetch_game)
 
 }
 

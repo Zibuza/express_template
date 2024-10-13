@@ -4,7 +4,11 @@ import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 
-import { default as User } from "./Api/models/UserModel.mjs";
+import { default as User } from "./Api/models/userModel.mjs";
+import { default as Match } from "./Api/models/matchModel.mjs";
+import { default as Team } from "./Api/models/teamModel.mjs";
+import { default as Event } from "./Api/models/eventModel.mjs";
+import { default as Game } from "./Api/models/gameModel.mjs";
 
 import { routes } from "./Api/routes/routes.mjs";
 
@@ -20,10 +24,14 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const userModel = User;
+
 
 routes(app, {
-    User: userModel
+ User,
+ Team,
+ Match,
+ Event,
+ Game
 });
 
 app.listen(PORT, () => {
