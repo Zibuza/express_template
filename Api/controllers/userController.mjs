@@ -186,7 +186,8 @@ async function fetch_game(req, res) {
                 appid: data.appid,
                 name: data.name,
                 cats: data.categories,
-                banner: data.header_image
+                banner: data.header_image,
+                steam_id:data.id
             };
         };
         
@@ -195,7 +196,8 @@ async function fetch_game(req, res) {
             const gamesInfo = await Promise.all(
                 steam_ids.map(async (id) => {
                     const response = await axios.get(`https://store.steampowered.com/api/appdetails?appids=${id}`);
-                    const game = response.data[id];
+                    let game = response.data[id];
+                    game.id = steam_id
                     return extractGameInfo(game);
                 })
             );
@@ -205,7 +207,8 @@ async function fetch_game(req, res) {
         // If only a single steam_id is provided, fetch data for that game
         const response = await axios.get(`https://store.steampowered.com/api/appdetails?appids=${steam_id}`);
         const game = response.data[steam_id];
-        const gameInfo = extractGameInfo(game);
+        let gameInfo = extractGameInfo(game);
+        gameInfo.steam_id = steam_id
         return res.json({ msg: "games data", gameInfo });
 
     } catch (err) {
