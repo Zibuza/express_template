@@ -2,6 +2,7 @@
 
 import userController from "../controllers/userController.mjs"
 import gameController from "../controllers/gameController.mjs"
+import eventController from "../controllers/eventController.mjs"
 
 import adminCheck from '../middlewares/isAdmin.mjs';
 import managerCheck from '../middlewares/isManager.mjs';
@@ -22,8 +23,9 @@ const routes = (app) => {
     app.route("/api/game")
     .get(managerCheck, gameController.fetch_game)
 
+    app.route("/api/event")
+    .post(managerCheck, eventController.create_event)
+
 }
 
- 
-    
 export {routes}

@@ -47,6 +47,7 @@ async function fetch_game(req, res) {
         if (!steam_id && !steam_ids) {
             return res.status(400).json({ msg: "No steam_id or steam_ids provided" });
         }
+        
         let existingGame = await Game.findOne({steam_id})
         if (existingGame){
             return res.json({ msg: "games data", existingGame });
@@ -63,14 +64,10 @@ async function fetch_game(req, res) {
                 steam_id: id
             };
         };
-        let add_game = (id)=>{
-            const newGame = new Game({
-                
-            })
-        }
-
+        
+       
         // If steam_ids are provided, fetch data for multiple games in parallel
-        if (steam_ids.length > 0) {
+        if (steam_ids != undefined) {
             const gamesInfo = await Promise.all(
                 steam_ids.map(async (id) => {
                     const response = await axios.get(`https://store.steampowered.com/api/appdetails?appids=${id}`);
@@ -88,11 +85,13 @@ async function fetch_game(req, res) {
         let gameInfo = extractGameInfo(game, steam_id);
 
 
-   
+        const newGame = new Game(gameInfo)
+        await newGame.save()
+
         return res.json({ msg: "games data", gameInfo });
 
     } catch (err) {
-        console.error("Error while fetching games:", err);
+        console.error("Error while fetching game:", err);
         return res.status(500).json({ msg: "Internal Server Error" });
     }
 }
