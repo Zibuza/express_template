@@ -77,3 +77,55 @@ post
 }
 
 -----------------------------------------------------
+/api/event
+post
+
+{
+    "manager":{
+    "email": "123",
+    "password": "123"
+  },
+  "name": "Summer Championship",
+  "desc": "A tournament for aspiring teams.",
+  "start_date": "2024-08-01",
+  "end_date": "2024-08-10",
+  "reg_fee": 100
+}
+
+/api/change_event
+post
+
+
+{
+    "manager":{
+    "email": "123",
+    "password": "123"
+    },
+    "new_event": {
+        "name": "gela",
+        "desc": "A tournament for aspiring teams.",
+        "start_date": "2024-08-01T00:00:00.000Z",
+        "end_date": "2024-08-10T00:00:00.000Z",
+        "matches": [],
+        "teams": [],
+        "reg_fee": 100,
+        "payment_history": [],
+        "sponsors": [],
+        "badges": [],
+        "_id": "671369d909a9d81ee2afd60f"
+    }
+}
+
+
+
+/api/event
+get
+
+
+{
+    "manager":{
+    "email": "123",
+    "password": "123"
+    },
+    "_id": "671369d909a9d81ee2afd60f"
+}

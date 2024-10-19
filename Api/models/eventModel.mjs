@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const { Schema } = mongoose;
 
 // Event Schema
@@ -14,7 +15,7 @@ const eventSchema = new mongoose.Schema({
         type: Date,
     },
     
-    games: [
+    matches: [
         mongoose.Schema.Types.ObjectId,
     ],
     teams:[

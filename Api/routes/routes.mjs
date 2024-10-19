@@ -24,7 +24,16 @@ const routes = (app) => {
     .get(managerCheck, gameController.fetch_game)
 
     app.route("/api/event")
-    .post(managerCheck, eventController.create_event)
+    .post(eventController.create_event)
+
+    app.route("/api/event")
+    .get(eventController.get_event)
+
+    app.route("/api/event")
+    .delete(eventController.del_event)
+
+    app.route("/api/change_event")
+    .post(eventController.change_event)
 
 }
 
