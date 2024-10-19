@@ -13,10 +13,7 @@ const eventSchema = new mongoose.Schema({
     end_date: {
         type: Date,
     },
-    time: {
-        type: String,
-        required: true,
-    },
+    
     games: [
         mongoose.Schema.Types.ObjectId,
     ],
