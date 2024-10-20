@@ -85,6 +85,7 @@ post
     "email": "123",
     "password": "123"
   },
+  game: "670bbc30a8c645b8a61075a1"
   "name": "Summer Championship",
   "desc": "A tournament for aspiring teams.",
   "start_date": "2024-08-01",
@@ -141,4 +142,18 @@ Delete
     "password": "123"
     },
     "_id": "671369d909a9d81ee2afd60f"
+}
+
+
+
+/api/create_match
+get
+
+
+/api/match_status
+get
+
+{
+    "game":"670bbc30a8c645b8a61075a1",
+    "id": "6714f0685549e6d0edde2f5b"
 }

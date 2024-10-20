@@ -11,6 +11,7 @@ const eventSchema = new mongoose.Schema({
         type: Date,
      
     },
+    game: mongoose.Schema.Types.ObjectId,
     end_date: {
         type: Date,
     },

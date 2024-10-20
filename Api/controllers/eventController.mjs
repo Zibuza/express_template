@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
 const Event = mongoose.model("Event");
-const { ObjectId } = mongoose.Types;
-
 
 
 async function create_event(req, res) {
     try {
 
-        let { name, desc, start_date, end_date, reg_fee } = req.body;
+        let { name, desc, start_date, end_date, reg_fee, game } = req.body;
 
 
         if (!name || !start_date || (desc && typeof desc !== 'string') || (end_date && new Date(end_date) < new Date(start_date)) || (reg_fee && isNaN(Number(reg_fee)))) {
@@ -23,7 +21,7 @@ async function create_event(req, res) {
 
 
         const newEvent = new Event({
-            name, desc, start_date, end_date, matches, teams, reg_fee, sponsors, badges, payment_history, badges, sponsors
+            name, desc, start_date, end_date, matches, teams, reg_fee, sponsors, badges, payment_history, badges, sponsors, game
         });
 
 
@@ -109,6 +107,10 @@ async function del_event(req, res) {
     }
 }
 
+async function add_player(req, res) {
+    // create teams
+
+}
 
 
 export default {
