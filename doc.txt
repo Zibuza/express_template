@@ -129,3 +129,16 @@ get
     },
     "_id": "671369d909a9d81ee2afd60f"
 }
+
+
+/api/event
+Delete
+
+
+{
+    "manager":{
+    "email": "123",
+    "password": "123"
+    },
+    "_id": "671369d909a9d81ee2afd60f"
+}
